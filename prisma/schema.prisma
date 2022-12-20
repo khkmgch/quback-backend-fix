@@ -1,0 +1,118 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  //id >> autoincrementで自動採番
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  //email >> @uniqueで重複を防ぐ
+  email String @unique
+  //ユーザ名
+  userName String
+  //ハッシュ化したパスワード
+  hashedPassword String
+  //プロフィール画像
+  profilePicture String?
+  //カバー画像
+  coverPicture String?
+  //Questionの配列
+  questions Question[]
+  //いいねしたQuestionの配列
+  likeQuestions Like[]
+  //Bookの配列
+  books Book[]
+  //フォロー
+  followedBy Follow[] @relation("following")
+  following  Follow[] @relation("follower")
+}
+model Follow {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  follower    User @relation("follower", fields: [followerId], references: [id], onDelete: Cascade)
+  followerId  Int
+  following   User @relation("following", fields: [followingId], references: [id], onDelete: Cascade)
+  followingId Int
+
+  @@id([followerId, followingId])
+}
+
+model Like {
+createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId Int
+
+  @@id([userId, questionId])
+}
+
+model Link {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  questionId Int
+
+  book Book @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  bookId Int
+
+  @@id([questionId, bookId])
+}
+
+model Question {
+  id Int @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title String
+  description String?
+  //非公開設定
+  isPrivate Boolean
+  //いいねしたユーザー
+  likes Like[]
+  //紐づけされた本
+  books Link[]
+  
+  //userIdとUserのidを紐づけする
+  //userにUserのモデル構造が入る >> user User
+  //userIdとUserのidを紐づける >> fields: [userId], references: [id]
+  //Userが削除された場合に自動削除する >> onDelete: Cascade
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  //作成したUserのid
+  userId Int
+}
+
+model Book {
+  id Int @id @default(autoincrement())
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  googleBooksId String
+  isbn String?
+  title String?
+  authors String[]
+  publisher String?
+  publishedDate String?
+  pageCount String?
+  imgLink String?
+  previewLink String?
+
+  links Link[]
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
+}
