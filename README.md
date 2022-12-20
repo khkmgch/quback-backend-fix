@@ -1,78 +1,30 @@
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+</p>
+
+[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+[circleci-url]: https://circleci.com/gh/nestjs/nest
+
+  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+    <p align="center">
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
+<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
+<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
+<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
+<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
+<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
+<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
+  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
+    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
+  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+</p>
+  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+
 ## Description
 
-気になることを記録していく「QuBack」というオリジナルの Web アプリのバックエンド API です。
-
-以前作成した、ShiRiTai というアプリ(https://github.com/khkmgch/ShiRiTai) にデータベースとのやり取りなどのバックエンドの機能を追加して改良中です。  
-Prisma を使って PostgreSQL のデータベース操作を行っています。
-
-↓ フロントエンドはこちらで作成中です。  
-https://github.com/khkmgch/quback-frontend
-
-## 現状
-
-![0](https://user-images.githubusercontent.com/101968115/206492847-0515a8a8-fb78-469e-b509-a915bc493801.png)
-
-![1](https://user-images.githubusercontent.com/101968115/206492864-d33cd826-948e-490b-baa8-0326c3e3ace9.png)
-
-![2](https://user-images.githubusercontent.com/101968115/206492886-3bf76a9c-62c7-46b4-84ea-629fe0a7692e.png)
-![3](https://user-images.githubusercontent.com/101968115/206492910-42c38cc4-308f-41fd-83c9-6052745973e7.png)
-![4](https://user-images.githubusercontent.com/101968115/206492926-74da5d6f-6211-4423-b9d1-816166db99ab.png)
-![5](https://user-images.githubusercontent.com/101968115/206492948-eda6e3a3-fcaa-4242-bd49-976f3023405f.png)
-
-## アプリ概要
-
-① 気になったこと(Question)を記録・投稿  
-②1 週間後にリマインド機能で Question に戻ってくる(Back)  
-③Boogle Books Api を使って本を検索し、My 本棚に追加する  
-④ 気になったことについて調べ、答えを記入。本と Question を紐づけできる。
-
-- 分析  
-  Question を作成した時刻のデータから、あなたの疑問が生まれやすい時間帯がグラフで分かるようになります。
-
-- タイムライン  
-  タイムラインから他の人の Question を見て、自分の気になることのリストに追加することができます。
-
-## Tools
-
-- NodeJs(NestJs)
-- PostgreSQL
-- Prisma
-- Docker
-
-## 作成したエンドポイント
-
-JWT と CsrfToken を cookie に設定して、アクセスの可否を判断させています。
-
-- 認証('auth')
-
-  - CsrfToken の取得 @Get('csrf')
-  - 新規登録 @Post('signup')
-  - ログイン @Post('login')
-  - ログアウト @Post('logout')
-
-- ユーザー('user')
-  - ログインしているユーザーの情報を取得 @Get()
-  - id でユーザーの情報を取得 @Get(':id')
-  - ユーザ情報を更新 @Patch()
-  - アカウントを削除 @Delete(':id')
-  - ユーザーをフォロー @Patch(':id/follow')
-  - ユーザーのフォローを解除 @Patch(':id/unfollow')
-- クエスチョン('question')
-  - ユーザーのクエスチョンを全て取得 @Get('all/profile')
-  - ユーザーのタイムラインに表示するクエスチョンを全て取得 @Get('all/timeline')
-  - ユーザーの特定のクエスチョンを１つ取得 @Get(':id')
-  - クエスチョンを新規作成 @Post()
-  - クエスチョンを更新 @Patch(':id')
-  - 特定の Question にいいねを押す @Patch(':id/like')
-  - 特定の Question に本を紐づけする @Patch(':id/link')
-  - 特定の Question と本の紐づけを解除する @Patch(':id/unlink')
-  - クエスチョンを削除する @Delete(':id')
-- 本('book')
-  - ユーザーの本棚にある本を全て取得する @Get()
-  - ユーザーの本棚から特定の本を１つ返す @Get(':id')
-  - Google Books Api から本をキーワード検索 @Get('search/:keyword')
-  - Google Books Api から検索した本を本棚に新規追加 @Post()
-  - 本を本棚から削除 @Delete(':id')
+[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Installation
 
