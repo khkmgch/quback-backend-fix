@@ -18,7 +18,7 @@ async function bootstrap() {
   app.enableCors({
     //credentials: フロントエンドとバックエンドでJWTトークンをcookieベースで通信する。
     credentials: true,
-    //バックエンドのサービスへのアクセスを許可したい、フロントエンド(React側)のドメインを指定
+    //バックエンドのサービスへのアクセスを許可したい、フロントエンド(React側)のドメインを指定。
     origin: ['http://localhost:3000'],
   });
 
